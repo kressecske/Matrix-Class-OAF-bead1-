@@ -3,7 +3,7 @@
 <h3>
 	ELTE-IK Objektum elvű alkalmazások fejlesztésére készült beadandó.
 </h3>
-<h4>Felső háromszög osztály megvalósítása és a mátrix 1-2 alapművelete c++ nyelven.</h4>
+<h4>Felső háromszögmátrix osztály megvalósítása és a mátrix 1-2 alapművelete c++ nyelven.</h4>
 <h3>Dokumentáció:</h3>
 <h4>doksi/beadketto.pdf</h4>
 
