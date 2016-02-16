@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1443651350 source:d:\backup\suli\3.félév\oaf\1bead\matrix.cpp
+	"matrix.h"
+	<iostream>
+	<iomanip>
+
+1443303309 d:\backup\suli\3.félév\oaf\1bead\matrix.h
+	<iostream>
+
+1443467206 source:d:\backup\suli\3.félév\oaf\1bead\main.cpp
+	"matrix.h"
+	"menu.h"
+
+1443467229 d:\backup\suli\3.félév\oaf\1bead\menu.h
+	<iostream>
+	"matrix.h"
+
+1443467263 source:d:\backup\suli\3.félév\oaf\1bead\menu.cpp
+	"menu.h"
+	"matrix.h"
+	<iostream>
+	<iomanip>
+

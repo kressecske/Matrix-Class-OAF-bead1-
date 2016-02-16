@@ -1,0 +1,208 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin2]{inputenc}
+\usepackage[magyar]{babel}
+
+% használt betûtípusok  beállítása
+\usepackage{palatino}
+\usepackage{courier}
+
+%%% felsõ és alsó margó beállítása, elhagyható
+\usepackage[top=3cm,bottom=2cm,inner=2.5cm,outer=2.5cm]{geometry}
+
+% bekezdés behúzásának átállítása
+\setlength{\parindent}{0pt} 
+
+% matematikai képletek írásához
+\usepackage{amsmath}   
+\usepackage{amssymb}
+
+% függvények kapcsolódási szerkezetének rajzolásához
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+% stuki rajzolásához be kell tölteni a .tex forrásfájllal azonos könyvtárba helyezett stuki.sty-t
+\usepackage{stuki}
+
+% programkód megjelenítéséhez
+\usepackage{listings}
+\lstset{language=C++, basicstyle=\ttfamily, keywordstyle=\color{blue}\ttfamily, stringstyle=\color{red}\ttfamily}
+
+% specifikáció állapotterében \alatt{arg1}{arg2} saját paranccsal adható meg
+% az arg1 típusértékhalmaz és a hozzá tartozó arg2 változó
+\newcommand*{\alatt}[2]{\underset{\mathop{\vrule height 5pt width 0pt\relax #2}}{#1}}
+
+% a specifikáció utófeltételében használt nagy függvények definiálása
+\DeclareMathOperator*{\SEARCH}{\textit{\small \textbf{SEARCH}}}
+\DeclareMathOperator*{\SELECT}{\textit{\small \textbf{SELECT}}}
+\DeclareMathOperator*{\MAX}{\textit{\small \textbf{MAX}}}
+
+%%% az adatokat tartalmazó doboz rajzolásához
+\usepackage{tcolorbox}
+
+% sorszámozott listához
+\usepackage{enumitem}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%% SZEMÉLYES ADATOK %%%%%%%%%%%%%%%%%%%%
+\begin{center}
+	
+\begin{tcolorbox}[title=\Large{\textsc{Objektum elvû alkalmazások fejlesztése}}\\Dokumentáció - 1. Beadandó feladat,arc=0mm]
+\begin{minipage}[t]{0.5\textwidth}
+	\textbf{Név:} Lombosi Balázs\\
+	\textbf{Neptun kód:} D3BA80\\
+	\textbf{Elérhetõség:} \\
+	lombosi.balazs@gmail.com
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}\raggedleft{
+	\textbf{Csoport:} 6.\\
+	\textbf{Feladatszám:} 2.\\
+	\today}
+\end{minipage}
+\end{tcolorbox}
+\end{center}
+\vspace{18pt}
+
+%%%%%%%%%%%%%%%%%%%% FELADAT LEÍRÁSA %%%%%%%%%%%%%%%%%%%%
+{\textbf {Feladatleírás}}\\[2pt]
+Valósítsa meg az egész számokat tartalmazó felsõháromszög mátrixtípust (a
+mátrixok a fõátlójuk alatt csak nullát tartalmaznak)! Ilyenkor elegendõ csak a fõátló
+és afeletti elemeket reprezentálni egy sorozatban, amelyet egy dinamikus
+helyfoglalású tömbben helyezzünk el. Implementálja önálló metódusként a mátrix iedik
+sorának j-edik elemét visszaadó mûveletet, valamint hatékony összeadás és
+szorzás mûveleteket, továbbá a mátrix (négyzetes alakú) kiírását, és végül a másoló
+konstruktort és az értékadás operátort! 
+\vspace{18pt}
+\newpage
+%%%%%%%%%%%%%%%%%%%% SPECIFIKÁCIÓ %%%%%%%%%%%%%%%%%%%%
+{\textbf {Típusérték-halmaz}}\\[2pt]
+
+ Matrix(m) = \{a $\in \mathbb{Z}^{m*m} $ | m $\in \mathbb{N} \wedge \forall i,j \in [1..m]: i>j \rightarrow a[i][j]=0$ \}\\
+
+{\textbf {Típus mûveletek}}\\[2pt]
+
+
+\textit{1.Lekérdezés}
+
+\hspace{18pt}$\!A=\alatt{Matrix(\_meret)}{m}\times \alatt{\mathbb{Z}}{i}\times \alatt{\mathbb{Z}}{j}\times \alatt{\mathbb{Z}}{e}$\\[4pt]
+
+
+\hspace{18pt}$\!Q = (m=m' \wedge i=i' \wedge j=j' \wedge i,j \in [0..\_meret])$\\[4pt]
+
+\hspace{18pt}$\!R = ( Q \wedge e=a[i][j] )$\\[4pt]
+
+\textit{2.Felülírás}
+
+\hspace{18pt}$\!A=\alatt{Matrix(\_meret)}{m}\times \alatt{\mathbb{Z}}{i}\times \alatt{\mathbb{Z}}{j}\times \alatt{\mathbb{Z}}{szam}$\\[4pt]
+
+
+\hspace{18pt}$\!Q = (m=m' \wedge i=i' \wedge j=j' \wedge i,j \in [1..\_meret] \wedge szam=szam' \wedge i\leq j)$\\[4pt]
+
+\hspace{18pt}$\!R = ( i=i' \wedge j=j' \wedge a[i][j]=szam \wedge \forall k,l \in [1..\_meret]: (k\neq i \vee l \neq j) \rightarrow a[k,l]=a'[k,l] )$\\[4pt]
+
+\textit{3.Összeadás}
+
+\hspace{18pt}$\!A=\alatt{Matrix(\_meret)}{a}\times\alatt{Matrix(\_meret)}{b}\times\alatt{Matrix(\_meret)}{c}$\\[4pt]
+
+
+\hspace{18pt}$\!Q = (a=a' \wedge b=b')$\\[4pt]
+
+\hspace{18pt}$\!R = ( Q \wedge \forall i,j \in [1.._meret] : c[i][j]= a[i][j] + b[i][j] )$\\[4pt]
+
+\textit{4.Szorzás}
+
+\hspace{18pt}$\!A=\alatt{Matrix(\_meret)}{a}\times\alatt{Matrix(\_meret)}{b}\times\alatt{Matrix(\_meret)}{c}$\\[4pt]
+
+
+\hspace{18pt}$\!Q = (a=a' \wedge b=b')$\\[4pt]
+
+\hspace{18pt}$\!R = ( Q \wedge \forall i,j \in [1..\_meret] : c[i][j]= a[i][j] * b[i][j] )$\\[4pt]
+
+{\textbf {Reprezentáció}}\\[2pt]
+Az n*n-es felsõháromszög mátrixot (csak a fõátló és felett tartalmaz nem nulla elemeket), az egész mátrixot ábrázolva valósítjuk meg a programba, ügyelve arra, hogy a fõátló alatti elemek mind nulla.\\
+\newpage
+{\textbf {Implementáció}}\\[2pt]
+\textit{1.Lekérdezés}\\
+Az m mátrix i-edik sorának j-edik elemét visszaadó e:=m[i][j] értékadás programmal implementálható feltéve, hogy i $\leq j$ és i,j $\in$ [1..n],ahol n a mátrix mérete.
+\begin{stuki}[5cm]
+				\begin{IF}{1}
+					{\stm{ i \leq j}}
+					\stm{ e:= m[i][j]}
+					\ELSE
+					\stm{-}
+				\end{IF}
+\end{stuki}
+\textit{2.Felülírás}
+Az m mátrix i-edik sorának j-edik elemét felülíró m[i][j]:=szam értékadás programmal implementálható feltéve, hogy i $\leq j$ és i,j $\in$ [1..n],ahol n a mátrix mérete.
+\begin{stuki}[6cm]
+	\begin{IF}{1}
+		{\stm{ i \leq j}}
+		\stm{ m[i][j]= szam}
+		\ELSE
+		\stm{-}
+	\end{IF}
+\end{stuki}
+\textit{3.Összeadás}\\
+$\forall i,j \in [1..\_meret] : c[i][j]= a[i][j] + b[i][j] $\\[4pt]
+\textit{4.Szorzás}\\
+$\forall i,j \in [1..\_meret] : c[i][j]= a[i][j] * b[i][j] $\\[16pt]
+{\textbf {Osztály}}\\[2pt]
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|}
+		\cline{1-2} \cline{4-4}
+		\multicolumn{2}{|l|}{\textbf{Matrix}} & \textbf{} & \textbf{Exceptions} \\ \cline{1-2} \cline{4-4} 
+		\multicolumn{2}{|l|}{\begin{tabular}[c]{@{}l@{}}-\_meret: int\\ -\_matrix: int**\end{tabular}} &  &  \\ \hline
+		\multicolumn{2}{|l|}{\begin{tabular}[c]{@{}l@{}}+Matrix(int)\\+Berak(int,int int): void\\ +Kiolvas(int, int): int\\ +Size(int): void\\ +operator+(Matrix,Matrix): Matrix\\ +operator=(Matrix,Matrix): Matrix\\ +operator*(Matrix,Matrix): Matrix\\ +operator\textless\textless(Matrix): Matrix\\ +operator\textgreater\textgreater(Matrix): Matrix\end{tabular}} & \multicolumn{1}{c|}{{\color[HTML]{000000} }} & \begin{tabular}[c]{@{}l@{}}+OVERINDEXED\\ +NULLPART\\ +DIFFERENT\end{tabular} \\ \cline{1-2} \cline{4-4} 
+	\end{tabular}
+\end{table}
+
+Az osztály-definíciót a matrix.h fejállományban helyezzük el.
+
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%% TESZTELÉSI TERV %%%%%%%%%%%%%%%%%%%%
+{\textbf {Tesztelési terv:}}\\[2pt]
+\begin{enumerate}[topsep=2pt,noitemsep,label=\arabic*),leftmargin=*]
+\item Különféle méretû mátrixok létrehozása, feltöltése és kiírása
+	\begin{enumerate}[topsep=2pt,noitemsep,label=\alph*),leftmargin=*]
+		\item 0,1,2,5 dimenziójú mátrix
+		\item Az a+b illetve a*b kifejezés kiíratása		
+	\end{enumerate}
+\item Mátrix adott pozíciójú értékének lekérdezése és megváltoztatása. 
+	\begin{enumerate}[topsep=2pt,noitemsep,label=\alph*),leftmargin=*]
+		\item Hibás pozíció megadása.
+		\item Felsõ-háromszög mátrixba esõ elem lekérdezése
+		\item Felsõ-háromszög mátrixba esõ elem megváltoztatása.
+		\item Felsõ-háromszög mátrixon kívül esõ elem lekérdezése
+		\item Felsõ-háromszög mátrixon kívül esõ elem megváltoztatása	
+	\end{enumerate}
+\item A c:=a+b mátrixösszeadás kipróbálása
+	\begin{enumerate}[topsep=2pt,noitemsep,label=\alph*),leftmargin=*]
+		\item Eltérõ méretõ mátrixokkal (az a és b mérete különbözik, a c és a mérete különbözik)
+		\item Kommutatívitás ellenõrzése (a + b == b + a)
+		\item Asszociatívitás ellenõrzése (a + b + c == (a + b) + c == a + (b + c))
+		\item Null elem vizsgálata (a + 0 == a, ahol 0 a null mátrix)
+	\end{enumerate}
+
+\item A c:=a*b mátrixszorzás kipróbálása
+	\begin{enumerate}[topsep=2pt,noitemsep,label=\alph*),leftmargin=*]
+		\item Eltérõ méretõ mátrixokkal. (az a és b mérete különbözik, a c és a mérete különbözik)
+		\item Kommutatívitás ellenõrzése (a * b == b * a)
+		\item Asszociatívitás ellenõrzése (a * b * c == (a * b) * c == a * (b * c))
+		\item Null elem vizsgálata (a * 0 == 0, ahol 0 a null mátrix)
+	\end{enumerate}
+
+
+
+
+\end{enumerate}
+\end{document}
